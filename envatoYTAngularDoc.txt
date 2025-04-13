@@ -36,7 +36,8 @@ One benefit of TypeScript is that it provides information about
 types and arguments and provides suggestions for you.
 
 Material is Google's UI framework. But for the moment, we're going
-to use Bootstrap instead of material which works fine.
+to use Bootstrap instead of material which works fine. To use Bootstrap
+in our project, we include it via cdn in our index.html file's head section.
 
 JavaScript has a bunch of loops but the one that we typically use
 is the for loop. And Angular gives us an easy way of using the for
@@ -45,4 +46,105 @@ of loop and we will use what's called a directive.
 To use a directive, in the div element we use an asteriskng (*ng)
 and it gives us some suggestions, the ones with the yellow icon 
 are the ones that we work with (ngFor, ngIf, etc.).
+
+The *ngFor directive is a structural directive because it changes the
+structure of the DOM.
+
+We can use the *ngIf directive to control the DOM, if the condition
+we provide is true, then the element is going to be added to the document
+and the content in the element will be rendered and visible. However, if
+the condition is false, the element won't be rendered. We use this code:
+<div *ngIf="items.length === 0">
+    There are no wishes to display.
+</div>
+
+When there are no items to display and the array isn't rendered, the ul
+element can be found in dev tools, to make that disappear we can type a 
+ngIf condition in the ul element and say if the length of the array is
+greater than 0, it is displayed.
+
+The other approach for determining whether it is displayed or not is to
+use this code instead: 
+<div ngIf="items.length === 0, then noItems else showItems"></div>
+<ng-template #noItems>
+    There are no wishes to display.
+</ng-template>
+<ng-template #showItems>
+    There are no wishes to display.
+</ng-template>
+
+*ngIf is also a structural directive because it changes the structure
+of the document based upon the condition that is evaluated.
+
+You cannot have two structural directives on the same element.
+
+The way we work with data is that sometimes we want to display it and
+sometimes we just want to work with it behind the scenes.
+
+In our wish list application, we have two pieces of information that we
+want to display. We want the text of the wish, we also want to show whether
+or not that wish has been fulfilled.
+
+In html, we add the checked attribute to the checkbox element to make it
+be displayed as checked. 
+Also on the JS side of things, this input element has a checked property.
+That property is boolean. However, one thing to note is that if the html 
+attribute is present, it is checked, regardless of its value. But the JS
+property can be true or false which determines whether its checked or not.
+
+To establish a connection between the isComplete property and the checked
+attribute we should use property binding. We take the html attribute in 
+this case checked and we sorround it with square brackets and the value 
+that we assign to this is a JS expression that will determine whether or
+not this check box is checked, that is the isComplete property.
+
+When we want to bind something to the JS property of an object, we must
+surround that property name with square brackets, assign the JS expression
+that will then be bound to that property.
+
+We can also bind to html attrtibutes. Let's say we wanted a custom attribute
+called data-index; which would represent the index of the item in the 
+array. We can get the index with the ng4 directive. To tdo this we surround
+the attribute with square brackets and add attr. before the name of the 
+attribute 
+
+So we can bind data to an element's attribute or to its property.
+
+Events are the most important part of an app with a GUI, because it is 
+the primary way that the users interact with our app. 
+
+The way we binded the checkbox with our js property was a one-way binding,
+We are taking the value of isComplete and binding that to the checked 
+property of the checkbox. So when the user clicks on the checkbox, it is
+not updating the isComplete property. We need to write the code for that.
+
+In order to bind an event it's going to be like the DOM level 0 event
+handlers. If we wanted to handle the click event on an element, we would
+use onclick. 
+
+In Angular, we bind events like they way we bind properties and attributes.
+Except instead of using brackets we use parentheses. The compiler is going
+to suggest possible events that we can use and the names of them are just
+plain events, they don't have the on prefix or stuff like that.
+
+After naming the event in parentheses, we assign the JS code that is
+going to execute which can be a function or an expression.
+
+When it comes to DOM events, one of the things we typically do is 
+access the event object that occurs because that gives us a lot of 
+information about the event. What we have to do to get the information
+is pass the event object. We do so by typing a $event in parentheses.
+
+At first we passed $event (information about user when event occured)
+to the toggleItem function to print it on the console, vut all we really
+need is the item we work with, so we pass the item in the html.component.
+
+After we edit the function to display the item in the console, we see the
+information about the wish item such as wishText and isComplete, we can 
+see that when the user clicks on the checkbox when if they click multiple
+times, the isComplete value doesn't change so we have to update it manually.
+
+To manually update the value of isComplete, we write a single line of 
+code that toggles its value, so whenever it's clicked, the value changes
+from true to false or vice-versa.
 
