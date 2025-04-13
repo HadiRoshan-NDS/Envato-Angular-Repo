@@ -1,0 +1,48 @@
+The 4 component files collectively make up the component.
+The file ending in spec.ts is for testing.
+
+In the component html template file there is a span with {{ title }},
+It is outputing the value that is assigned to a variable called title.
+The title is defined in the app.component.ts file.
+
+The @Component in the component.ts file is a decorator. It gives
+us some information about the particular component. So this decorator
+tells Agnular how this component is going to be used with selector.
+
+In the index.html file line 11 there is a <app-root> element which
+is the name of the selector which was defined in the AppComponent.
+
+There are no hard rules for structuring our projects.
+
+In the app.component.ts file the class is exported and in the
+app.config.ts file the class and other things are imported.
+
+Whenever we create our wishItem class, we need to export it, and
+we'll call this class wishItem
+
+We want the properties of the constructor to be accessible elsewhere
+so the first thing that we do is make it public
+
+In TS, we specify the type after we define the variable.
+
+Regarding the two properties, whenever we define a wish item, we
+pass the wishtext and denote whether or not it is completed.
+
+After defining the wishItem class, we import it in the 
+app.component.ts file and in the export class section we add an 
+items array and pre-populate it with the constructor.
+
+One benefit of TypeScript is that it provides information about
+types and arguments and provides suggestions for you.
+
+Material is Google's UI framework. But for the moment, we're going
+to use Bootstrap instead of material which works fine.
+
+JavaScript has a bunch of loops but the one that we typically use
+is the for loop. And Angular gives us an easy way of using the for
+of loop and we will use what's called a directive.
+
+To use a directive, in the div element we use an asteriskng (*ng)
+and it gives us some suggestions, the ones with the yellow icon 
+are the ones that we work with (ngFor, ngIf, etc.).
+
