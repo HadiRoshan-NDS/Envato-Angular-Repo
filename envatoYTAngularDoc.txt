@@ -148,3 +148,107 @@ To manually update the value of isComplete, we write a single line of
 code that toggles its value, so whenever it's clicked, the value changes
 from true to false or vice-versa.
 
+Forms, or working with forms are also one of the most important parts of'
+the GUI. Events allow the users to interact with our application and forms
+allow them to provide data to our application to work with.
+
+Angular allows us to work with forms in two way, the first is called 
+reactive forms which is more robust and scalable. For right now, we will
+go with the second approach which is called template-driven forms. It 
+allows us to define our forms inside of the template and we just reply
+upon directives. 
+
+We have added some code with Bootstrap in the component html file to create
+a form for adding a wish. (The user just provide the wish text)
+
+The first thing we want to do about this form is to handle the click (event).
+We also have to prevent the form from being submitted, because that is the
+default behavior of clicking a button inside of a form. To do this we use
+preventDefault() with $event object to get access to it.
+
+We can execute multiple statements on an event (click in this case) so we
+first prevent the default behavior and then call a function for adding the
+wish which we are going to declare in the component.
+
+We need to find a way to bind data to this inpurt element. We do that with
+syntax that essentially combines both the property binding syntax and the 
+event binding syntax.
+Now we need to tell Angular that we have this form field that we want to
+bind to a property on our class, and we call it newWishText. Now we go
+and define this property inside of our component class.
+
+Even when we define newWishText in the ts component, we get and error:
+"Can't bind to 'ngModel' since it isn't a known property of 'input'."
+Now we have to open the app.module file which declares anything that
+our application requires in order to run. 
+
+In the NgModule decorator, declarations is a set of components or 
+directives that belong to this particular module. AppComponent belongs 
+this module because it has been declared here.
+
+The imports are things that are available to the templates, inside of
+this module. The providers are objects that can be injected to parts of
+this module. The [AppComponent] is the entry point to this module.
+
+What we need to do to be able to use the NgModel directive, is import the
+FormsModule, and vscode suggests the code we need for that. In order to 
+import, we have to import it on top of the file, and also in the import
+section of the decorator.
+
+We have binded the form field to the property so whenever the value changes, 
+it will be reflected inside of the newWushText property. Now we need to
+go to our component.ts file and add a new WishItem in the addNewWish
+function and get the wishText from the property which is binded to the field.
+After assigning the wishText, we clear it to allow the user to add another
+wish if they want.
+
+When we go to the browser and test our ap, we see that a new wish was added
+to the list but we cannot see a text. If we check the console in devtools
+we can see a clear error with a simple fix and we navigate to the html 
+file and add a name atribute to our input element.
+
+Now that we have thias funcionality we can comment out the hard coded 
+items because we have ability to add items ourselves.
+
+We also want to add a row div element which acts a container for our list.
+
+Sometimes when we use ngModel, we want to be notified when that model value 
+changes. For example we have used it for an input box which get a text and
+its value is bound to a property in our component. We could make it so as 
+the user types, we are notified of that change and get the value.
+
+We want to use this functionality to set up a filter which provides 3
+choices, one that shows all of the wishes, one that shows the fulfilled
+wishes, and one that shows unfulfilled wishes.
+
+First we uncomment the hard coded wishers to work with them. Then we add
+the markup for the UI, then we use the ngModel on the select element and
+use a property to bind it to, then we delcare the property as a string in
+the component ts file and initialize it as 0 which selects the all mode.
+Now we want to add a ngModelChange event which only occurs when the
+model changes. We can only use it with ngModel directive. The event object
+for this directive is not the typical object, it contains the new value.
+So when the value of the model changes the option is going to be passed
+to whatever method we choose.
+
+We have filtered out the items that are displayed by declaring a new array
+which only displays the visible items based on the mode that the user 
+changes, but it has a few bugs, eg. when the user adds a new wish, they
+have to refresh the page in order for the filter to work correctly.
+
+The ngModelChange is a useful directive but it wasn't really suitable
+for our filtering feature because it created two bugs. The only thing 
+we had to do to take care of those bugs was to make sure that changes
+to the iteams array (the original array) were reflected in the visibleItems
+array. We can use a feature of JS instead of Angular to repurpose the visibleItems
+array and make it a getter which is going to return an array which is 
+dependent upon the filter.
+
+Now that we have turned it into a getter, we must remove ngModelChange
+from the html copmponent and also remove the function which handled
+the changes to the filter, and also change the body for the getter.
+
+Now we don't have to write code to make sure that the visibleItems array
+is in sync with the items array because it is completely dependent on it.
+
+
