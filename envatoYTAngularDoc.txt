@@ -581,9 +581,29 @@ application. Next we will have to modify the wish-list component and work
 with the object itself. Because if those are equal, then we want to call the
 provided callback function where we will pass in the payload from the nextObj.
 
+Since the app currently works with the individual pieces of the wish, we have
+to find a way to identify the wish that we want to remove and work with the
+whole object. There are a couple of different ways for us to do this, one would
+be to supply some kind of unique identifier for each wish which in a real app
+that's what we would have, because the information would be coming from some 
+kind of data store. However, it would be okay if we forego the individual pieces 
+and provide the actual wish object to the wish list item.
 
+We will modify the code in wish-list-item component, remove the wishText property,
+then we won't have the two-way binding for fulfilled and refactoring seems like
+we are doing all the work we have done, but it was good practice.
 
+For the css classes we're gonna base them upon the wishes isComplete property.
+For the removeWish, we can pass in the wish object that we will get. For toggling
+fulfilled, we can leave the method there and modify its code to work with the
+isComplete property. Also for accessing the text and fulfilled in the 
+wish-list-item component, we will access them through the wish object. We also
+need to modify the code in the wish-list component and just pass the wish.
 
+Then we will modify the code for the constructor function in the app component
+to get the index of the item that we want to remove and then remove it with
+the splice method. Now we have successfully implemeneted the functionaliy 
+for removing items from the list.
 
 
 
