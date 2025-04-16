@@ -458,7 +458,7 @@ of the texts. (to draw a line through some of the texts)
 
 The way we apply this css to the text, is with a directive called ngClass. 
 This uses the square bracket syntax so it means that we are binding something
-to a peroperty called ngClass on label. That means that whatever we use as 
+to a property called ngClass on label. That means that whatever we use as 
 the value for this ngClass attribute has to be a JavaScript expression. So
 if we want to assign a css class, it would need to be a string so we surround
 it with a pair of quotes. 
@@ -604,6 +604,94 @@ Then we will modify the code for the constructor function in the app component
 to get the index of the item that we want to remove and then remove it with
 the splice method. Now we have successfully implemeneted the functionaliy 
 for removing items from the list.
+
+Dependency Injection has become the norm in modern sw development. All modern 
+frameworks have this feature regardless of whether you're using SSR or CSR.
+To understand dependency, we have to take a look at our event bus. We have this
+EventService class and then we export an object that we create (new EventService())
+So we are creating an actual object which we are importing in the wish-list-item
+component and the app component. And we are using that object to listen for the
+remove wish event and to emit that remove wish event. So this actual  event 
+object, is a dependency in the app and wish-list-item components. We could say
+that it is a hard dependency because we have created that object, and we are
+using that object inside of those components. 
+
+Hard dependencies can be a little problematic because it can make the code a
+little bit more difficult to maintain and update. But it can also cause some
+issues whenever we need to test our components. So we want to use Dependendcy
+Injection service to avoid creating dependencies ourselves. This way we can
+tell Angular what it is that we want to use and then it will automatically 
+inject our dependencies. 
+
+So for our wish-list-item component we want to import that event service class.
+In order to do that, we ned to first export that class. In the constructor we
+say that we want an object called events, and we want it to be of type event 
+service, and we're going to say that it's private events, so that it will 
+automatically that property for us, so that we don't have to create that 
+object. All we ahve to say is I want this wishlist component to rely upon this
+dependency and Angular will automatically provide that object for us. We could
+do the same thing in the app component, we would once again import the event
+service class and then in the constructor we would say that we want an object
+called events of type EventService. In this case we don't need to create a 
+property because we're using events here directly inside of the constructor.
+That's what we want, for Angular to create the dependencies for us.
+
+So the next thing we need to do is go to our EventService and get rid of the 
+export statement and export the class itself. But we'll get an error which 
+says "no suitable injection token for parameter 'events' of class 'AppComponent'"
+It means that it can't inject he event service because it doesn't know it can.
+It's not an automatic thing, so what we need to do is mark the EventService
+class with the @Injectable decorator which is going to tell Angular that this
+class can be injected into other classes. 
+
+So using the Injectable decorator is good but it is not enough, we can go to 
+our AppModule and we could import that event service and then we could add 
+that event service to the providers array. That is one way to do it, but,
+Whenever we use the Injectable decorator, we can specify where we want to be
+able to inject that class. All we have to do is pass an object that has a 
+property called providedIn, ant his enables us to do what we wanted. If we 
+provide a string called root <'root'>, it would be an app level injector, so
+this essentially means that the EventService would be available throughout the
+entire application. Alternatives for root would be platform, since we might
+have multiple applications in a single page and want to use it in all of them.
+
+One of the most common things we do in our client apps is interact with the 
+server. We issue HTTP requests to fetch data or manipulate that data. Angular
+has a built-in HTTP client. Technically every framework has an HTTP client 
+because we have the Fetch API that's built into the browser. React and View
+don't have a built-in HTTP client and you have to use third party client or
+you can just use the Fetch API. For Angular we can import the HTTP client
+module. After we import it we can add it as an element to the imports array.
+
+Currently, we have the items array inside of our app component which is hard-
+coded to have individual wishes. Instead I would like to fetch this information
+from a JSON file. Ideally we would have a web server for CRUD reqs but we don't.
+So for now we will have a JSON file that has that same information. We will 
+fetch that information and then use it to populate the items array. 
+
+Let's go to our assets folder and create a file called wishes.json and paste
+the hard-coded items. Now we don't want to work with the JSON file manually,
+so we would define a service which handles the HTTP requests for it. We can 
+generate a service by turning to the CLI and type <ng generate service [name]>
+which creates two new files in the app folder. The generated service is 
+injectable by default and we will import it in the app component and inject it
+to the constructor as a property and name it wishService of the type WishService.
+
+We need to writ ethe code that's going to fetch the json file. Inside the new
+service we importy the HttpClient and this is injectable so we can inject that
+into our constructor here. So we would use our HTTP object which has a variety 
+of methods, in this case we want to make a gre request so we specify the url
+that we want to make a request for that is our assets and then wishes.json.
+We would also want to return the result of the get method. 
+
+Now the get method returns an observable and by calling the get method, the 
+actual request has not been sent yet. Since this is an observable object we can
+call the subscribe method, the the request is sent. 
+
+Now what we want to do is make our http request with the OnInit method. The
+OnInit method was a method that executes so that we can perform other initialiation
+processes. One of those things could be making an HTTP request. So we want to
+implement OnInit in our app component, 
 
 
 
