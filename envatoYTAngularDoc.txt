@@ -693,6 +693,21 @@ OnInit method was a method that executes so that we can perform other initialiat
 processes. One of those things could be making an HTTP request. So we want to
 implement OnInit in our app component, 
 
+When it comes to HTTP Requests, we rarely just issue a simple get request like
+we did, instead we usually have to supply some options involved, such as special
+headers or an authorization token. It varies depending upon our server application
+and what it needs. But a lot of the time we are supplying some other information
+here. Since we don't have a server all of our reuqests would be of the type get
+but the principles can be applied everywhere.
+
+The only difference between a get request and a post request is we provide the
+request body as the second argument. The first argument is always the url, and
+the last argument is the options we may or may not want to provide. We can have
+a method that generates the standard options we need for every request. So we
+are going to define getStandardOptions which needs to return an object made of
+several options. 
+
+
 
 
 
