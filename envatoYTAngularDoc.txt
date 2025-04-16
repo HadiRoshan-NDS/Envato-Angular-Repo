@@ -207,7 +207,7 @@ to the list but we cannot see a text. If we check the console in devtools
 we can see a clear error with a simple fix and we navigate to the html 
 file and add a name atribute to our input element.
 
-Now that we have thias funcionality we can comment out the hard coded 
+Now that we have thias functionality we can comment out the hard coded 
 items because we have ability to add items ourselves.
 
 We also want to add a row div element which acts a container for our list.
@@ -478,3 +478,113 @@ an object where the property names are the css classes. And also the value is
 a conditional statement that determines whether or not that css class will be
 applied to the element. We have also used text-muted from Bootstrap to make 
 the color a bit transparent.
+
+We want to add functionality to remove individual wishes from the list. We 
+have to add a button for each item on the list, then whenever we click on 
+that button, we issue an event. We have an issue which is we have the 
+individual wishes in the wish-list-item component but we have defined the
+array of wishes in the app component so we have to manipulate the array from
+there. These two components are not directly related so we cannot necessarily
+define an event inside of the wish-list-item component and then listen for 
+that in the app component. 
+
+We have two options, The first would be to define a remove item event inside 
+of the wish-list-item component so that we can issue that event and listen for 
+it inside of the wish-list. But the wish-list component doesn't care about that
+event because it gets its wishes from the app component. We would need to define
+that remove wish event on the wish-list-item and then on the wish-list so that 
+the app component could listen to it on the wish-list. That's not scalable at 
+all it would be a disaster. 
+
+The more feasible solution would be to create an event bus. It's a global-object
+that lets you issue events from anywhere within the application and listen for
+those events anywhere within the application, and the way we can do that is by 
+using observable objects. What the observer pattern essentially is, it is an 
+object that needs to supply data to other objects. So the other objects subscribe
+to the observer object, and when those changes occur it notifies the subscriber.
+If that sound like an event, it's because it is an event. Every time we have
+used the event emitter we have used an observable object. However in this
+lesson we are going to use the observable type directly. 
+
+We'll navigate to the shared directory, create a new folder there and we'll 
+call it services, and inside of services we will create a new file called event
+service. Now first let's navigate to the wish-list-item component and let's
+modify our template here so we have our delete button. When we create the
+buttons using bootstrap in the template, it is created as a block element so
+it goes to a new line, so we use flexbox and d-flex then justify content between.
+When we do this the close buttons are going to be very far on the right side,
+
+We'll navigate to the app component template and add another div element. We
+have used this <col-sm-4> Bootstrap class to change the location of the X's 
+on the screen, and now we can define the click event for this button.
+
+Now we can see that going with the option of providing the wish text and the 
+value for fulfilled property wasn't the best approach. We should probably just
+use the wish object itself an input. We'll do that later.
+
+The concept with the event bus is very similar to what we have with normal
+events in that we are going to emit an event called removeWish, and then we
+are providing information involved with that remove wish event which in this 
+case is going to be the wish text. 
+
+Now we navigate to the app component to write the code for listening for that
+event. We can do this inside of the constructor, so we would have our events
+and we would listen for the remove wish event, and we would have a callback 
+function because that's typically what we would have. We could define a method
+for this or just provide the callback function inline. So eventually we would 
+get the wish and remove wish from items. So that's the API we want to use, so
+now we just need to implement that inside of our EventService file. 
+
+First we need to import Observable and Subject. These are being imported from
+RxJS. This is the Reactive Extensions for JS, which Angular uses extensively.
+And in fact it uses Observable extensively not just for events. Whenever we
+talk about HTTP requests it uses Observable then it is used throughout the 
+framework. Subject is a special type of Observable object. This is essentially
+going to allow us to emulate typical events so that we can have multiple 
+objects that subscribe to our Observable object. Meaning that we can issue a 
+single event and multiple objects can be listening for that same event.
+
+We wil define the class inside the EventService file, we don't need to inherit 
+anything, but we do need the Subject. We ned the Subject which is essentially
+going to allow us to pass messages from the Observable object to the subscriber
+object. We use the term message because that's essentially what an event is.
+
+We use the emit emthod where we would have the eventName as a string and also
+we have the payload for as of type any. We also hae the listen event which has
+eventName as string and then the callback function. And we define this function
+having an event of type any which returns void. 
+
+To emit an event we're going to use this.subject and anytime we want to emit
+and event we call a method called next, we pass in the object that we want the
+subscribers to work with. So in this case we have eventName and the payload.
+So whatever obejct is going to subscribe to an event is going to get an object
+with these two properties. We're going to simplify it for those subscribers.
+
+In the listen method, we are going to use our subject and there's a method called
+asObservable, and this is going to give us access to a subscribe method. And
+this subscribe method by default acceps a callback function that will accept 
+whatever we pass to the next method. So we will have nextObj for the subscribe
+function, and inside of the callback function we are going to check if the given
+events name is equal to the events name that comes from the nextObj.
+
+Now we have to first export EventService in its file and then import events 
+in app component and the wish-list-item component.
+
+When our application doesn't work as expected, we can add <debugger;> in our
+code to help us find the problem, it works like a break point . We can then 
+use the dev tools, sources tab, navigate to the correct file and move forward
+in steps to find the problem.
+
+Now that we have set up our event bus, we can emit the desired event from 
+anywhere in our application and also listen for it from anywhere in our 
+application. Next we will have to modify the wish-list component and work 
+with the object itself. Because if those are equal, then we want to call the
+provided callback function where we will pass in the payload from the nextObj.
+
+
+
+
+
+
+
+
