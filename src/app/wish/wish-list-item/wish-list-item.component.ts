@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { WishItem } from '../shared/models/wishItem';
-import { EventService } from '../shared/services/eventService';
+import { WishItem } from '../../shared/models/wishItem';
+import { EventService } from '../../shared/services/eventService';
+
 @Component({
   selector: 'wish-list-item',
   templateUrl: './wish-list-item.component.html',
-  styleUrls: ['./wish-list-item.component.scss']
+  styleUrls: ['./wish-list-item.component.scss'],
 })
 export class WishListItemComponent {
   @Input() wish!: WishItem;
@@ -13,19 +14,16 @@ export class WishListItemComponent {
 
   get cssClasses() {
     //return this.fulfilled ? ['strikeout', 'text-muted'] : [];
-    return {'strikeout text-muted': this.wish.isComplete};
+    return { 'strikeout text-muted': this.wish.isComplete };
   }
 
-  constructor(private events: EventService) {
-
-  }
+  constructor(private events: EventService) {}
 
   removeWish() {
-    this.events.emit('removeWish', this.wish)
+    this.events.emit('removeWish', this.wish);
   }
 
   toggleFulfilled() {
-this.wish.isComplete = !this.wish.isComplete;
+    this.wish.isComplete = !this.wish.isComplete;
   }
-
 }

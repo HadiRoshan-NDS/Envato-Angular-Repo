@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { WishService } from './wish.service';
+import { WishService } from './wish/wish.service';
 
 describe('WishService', () => {
   let service: WishService;

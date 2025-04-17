@@ -707,7 +707,76 @@ a method that generates the standard options we need for every request. So we
 are going to define getStandardOptions which needs to return an object made of
 several options. 
 
+One of the options is typically the header. If we don't have the correct headers
+sometimes our request is going to fail. We have a class called http headers,
+and in order to use that we are going to need to import it first. 
 
+The constructor in web services, accepts an object where the property names
+are the names of the headers and the values. We can specify the content type
+or a token we may need in these headers. 
 
+We define a fake mthod for adding a wish called addWish(), where we will accept
+the wish object as the agurment, this will be a WishItem which we need to import. 
+This is typically where we would use post, and in this case we would need that
+authorization header. Retrieving wishes doesn't require auhtorization but adding
+a wish does. When we access options header here, we can use the set method on 
+it and add an option. 
 
+We make the addWish method private so we wouldn't be able to call it from 
+outside of the class. Another common option that we use are URL parameters and
+this is especially true for get requests. For example if we weren't actually
+fetching a JSON file, we were hitting some kind of web service, but we were able
+to specify the format that we wanted the data in. We could have a format URL
+parameter and then we could set that to JSON or something else. We could add that
+to the URL or modify the params object which is of type HttpParams. Whenever we 
+use this constructor we can pass in an object that has various options, the most 
+used would be the fromObject.This object says that we want to create our URL 
+parameters from this object where the property names are the URL parameter names,
+and their values are their values. So using the object we have just defined, we
+can send a request using the provided URL, except that we don't have to specify
+the query portion of that URL. 
 
+Handling errors is an important part of software development. Errors happen and
+they might not be our fault, especially with HTTP requests. We should at least
+provide some information to the user that whatever you wanted to do didn't work.
+
+The first thing we want to do about errors, is in the app component file, provide
+a second callback function to the subscribe method. The first callback function is 
+handling the response on a successful request. If there is something that goes 
+wrong, we need to handle that error, and we can do that bt providing a second
+method which is another callback function that receives the error object and it 
+has a message property that we can provide to the user. 
+
+Now we'll go to the wish service file and make a request to a file that does not
+exist. So we change the name of the file from wishes.json to wishes1.json. When
+we save it and load the Angular application, we'll see the result of that request
+which will be "Http failure response 404 Not Found". The users are not technical
+people so we need to provide a meaningful message for them...
+
+- THE REST OF THE NOTES FOR HTTPS
+
+When it comes to building applications, modules are one of those things that we
+don't necessarily need them, but they are extremely useful for very large 
+applications. Because it allows us to create a container for closely related
+componens and functionality. For example, so far in this application we have been
+focusing on the wish list and everything that has to do with them, if we were going
+to build more functionality for this application that doesn't work with the wishes,
+like a contact form, it would be logical to create a module that serves as a 
+container for all of the wish oriented stuff. So everything we have done as far as
+working with wishes would be inside a module, then we could create another module
+for all of the contact form stuff. 
+
+We can create a module through the command line using ng generate module, specify
+the name of the module and run the command. Then the CLI is going to create a
+directory inside of our app directory called wish, with one module file. Now that
+we have created this module we want to put everything we have worked on thus far
+in this folder, the folders with wish in their names and also in shared.
+
+In the app module file, we want to take some of the import statements where we are
+importing components, we will cut them and paste them in the new wish module. We
+also need to move the declarations and also move HttpClient and Forms imports to
+the new module along with their import array. 
+
+Importing the components in the new module is not good enough, we need to also 
+export it, so we'll create an exports array and specify each one of these 
+components that we want to export. 
