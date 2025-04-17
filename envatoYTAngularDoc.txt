@@ -780,3 +780,11 @@ the new module along with their import array.
 Importing the components in the new module is not good enough, we need to also 
 export it, so we'll create an exports array and specify each one of these 
 components that we want to export. 
+
+- THE REST OF THE NOTES FOR MODULES
+
+We want to extract just about everything about our wish list application into the
+wish module. Even taking what we currently have inside of the AppComponent, and
+putting that inside of a new component called wish inside of the wish module. That
+way all we have to do is drop that component into the app component so we would 
+have something like <wish-app></wish-app> in the app.component.html file.
