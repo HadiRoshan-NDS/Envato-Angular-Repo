@@ -1,0 +1,27 @@
+<form class="container p-5" [formGroup]="contactForm">
+  <div class="mb-3">
+    <label class="form-label">Your Name</label>
+    <input type="text" class="form-control" formControlName="senderName" />
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Your Email Address</label>
+    <input type="email" class="form-control" formControlName="senderEmail" />
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Message</label>
+    <textarea
+      class="form-control"
+      rows="3"
+      formControlName="senderMessage"
+    ></textarea>
+  </div>
+  <div class="mb-3">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      (click)="$event.preventDefault(); submitForm()"
+    >
+      Send Message
+    </button>
+  </div>
+</form>

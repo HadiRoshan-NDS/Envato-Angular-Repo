@@ -788,3 +788,126 @@ wish module. Even taking what we currently have inside of the AppComponent, and
 putting that inside of a new component called wish inside of the wish module. That
 way all we have to do is drop that component into the app component so we would 
 have something like <wish-app></wish-app> in the app.component.html file.
+
+First thing that we want to do is we want to create a component and call it wish,
+and put it inside of the wish module. The command we need for this is:
+    <ng generate component wish -m wish>
+In the project we have an app module and app component so we want to keep the same
+pattern and create a wish component inside a wish module. What we want to do now
+is move the template from our app component to our newly created wish component.
+
+Now that we have moved that code, we need to modify our components, first we need 
+to move the code for impoerting WishItem, EventService, and WishService to our
+wish component, and also edit the paths for the import statements. We also need to
+move the code in the body of the AppComponent class in the app component file to
+the wish compoennt file. 
+
+Now we want to navigate to the wish module and whatever is going to use this wish
+module doesn't necessarily care about the 4 components exported in this module, so
+all we need to export is the wish component. 
+
+In this section we want to discuss forms. When we created the Add-Wish-Compoennt,
+we used the template-driven approach. We used the ngModule directive, assigned that
+property to our component class and then created that two-way binding between the
+form field and the property. While this approach works for simple forms, we 
+typically don't want to use it for larger forms, especially if our application is 
+very forms heavy. 
+
+One of the disadvantages with template driven approach is that it has performance
+hit, there's a lot of overhead to manage the things that are working under the hood
+and we can't really be sure that the data we are working with is actually the data
+that we want to work with. Due to the asynchronous and binding nature of using 
+ngModule, the data that we are working with inside of our component might not be
+what we need to work with. 
+
+This leads us to Reactive Forms. We want to do this inside a new module so that we
+can swap these modules as we need. So we create a module called contact and also a
+component named contact inside of that module. Whenever we used the ngModule- 
+directive, we had to include the FormsModule, but we don't do that with reactive
+forms, instead we use ReactiveFormsModule. Now that we've done that we should put
+ContactComponet in the exports array. Now we navigate to the Ap pModule and the App 
+Component to be sure to import that ContactModule. 
+
+Now we'll paste the markup for a form in our contact component which is a contact
+form. Now we'll go to the component and we want to use reactive forms. The primary 
+way to do that is importing a class called FormControl. What we do is create form
+control and bind that to the individual fields in our form. We need to import this
+from angular/forms, and then we are going to define our properties that are going
+to represent those FormControl's. We have 3, the senderNameControl, where we want
+to new up the FormControl constructor. Now we can initialize it with a value, and
+here an empty string would be fine. We also have senderEmailControl, which again
+we will new up the constructor for, and finally we have the senderMessageControl.
+
+Now that we have these controls we need to bind them to the actual form fields.
+We're going to do that inside of our template, we're going to add a directive 
+called FormControl. The only difference between this approach and template-dirven,
+is that we have created those properties explicitly as FormControl objects and we
+are binding those objects to these form fields. 
+
+A question that we may have is why use reactive forms since the setup is mostly the
+same as template-driven. The key is we used the term objects, we created these
+FormControl objects and as such, this gives us an API that we can tap into to make
+our forms a lot more flexible. For example we're going to have a method called
+submit form which we are going to create in contact component. But if we just take
+a look at one of these like the senderEmailControl, and see what Intellisence is 
+going to pop up, we se that there a lot of properties and methods. For example,
+there is a dirty property, if this property is true, then the value in that form
+field has changed from its original value. And that is valuable to know while we
+process the form. There's also the pristine property which is simply the oposite.
+If the value of this particular form control has not changed, then pristine is
+going to be true. It also gives us the abilty to mark a form as pristine, there's
+also a term called touched, meaning that the user has given focus to the form field 
+and then took the focus away. There are also validators which are very useful.
+
+After defining the submitForm function and used dirty on the name field, we go to
+the template file and handle the click event, first we will prevent the default 
+from happening, and then we can call the submitForm function.
+
+In the previous section we created a contact form and used reactive forms to
+set up the ability to process this form. We haven't done any processing, but
+we also talked about the benefits of using reactive forms instead of template
+driven, one is that we get this API which gives us a flexible way of processing
+a form. It also gives us the sense of data integrity. Because as the user
+submits the form, we get a snapshot of the data of that form at the time it 
+was submitted. 
+
+In this section we want to take this further and organize this form into groups,
+because our form has just three form fields. These fields relate to each 
+other so it makes sense to group them all together. To do that, we need to
+import the FormGroup class and we'll create our group by creating another
+property which we call contactForm and we will new up the FormGroup constructor.
+This accepts an object which basically allows us to define our data model.
+So just like we defined our model with individual properties, now we are
+going to have a model that is encapsulated within this FormGroup. We can
+now take the properties we created in the previous lesson and paste them 
+inside of this form group. We also need to modify the syntax a bit.
+
+To make them easier to deal with we remove the "control" from the property 
+names. We'll comment the body for the submit function for now. Now we go to
+the template file to bind our form to our form group. We are going to use a 
+directive called formGroup and assign the contactForm that we created to it.
+And for the individual fields we no longer use the formControl directive.
+Instead we use an attribute called formControlName. And the value is the name
+of the property in our form group. Now we need to change the formControl
+directive to the formControlName.
+
+So now we have the group and it is properly bound to our form. The other 
+thing we want to change is getting rid of the click event on our button.
+Because instead of listening for this event, we want to listen for the submit
+event on this form, and we do that by binding to the ngSubmit event. The 
+reason why we want to do this is because it allows the user to submit the 
+form, both by clicking on a button that has a type of submit, which we have,
+but it also lets the user use the Enter key on the keyboard. 
+
+This gives us a different way of accessing the elements in our form, but
+also just working with the form in general. When we submit the form with the
+current formGroup and functionality, we see that we get an object with three
+properties (name, email, message) and if we change any of the form field
+values, we are going to see those values represented whenever the form is 
+submitted. By using the form group, we also have the ability to check the 
+validity of the entire form all at once. To do that we need to use the 
+valid property. Since we haven't defined any validators, this is always
+going to be true. But instead of checking each individual property, we check
+to see if the form itself is valid.
+
+
