@@ -996,7 +996,42 @@ senderEmail, this is senderMessage. For the minLength error, all we would
 use is the name of the validator. When we pass the name of the validator to
 hasError, we should type the letters all in lower case.
 
+Angular has many built-in form validators and they will work for the majority 
+of cases, however, there will be times when we want our own validator. 
+It is easy to write a custom validator because it is a function. 
+So now we want to add another validator to the email address field. We want
+to prevent people from using certain domains like gmail.com or yahoo.com,
+it isn't a practical example but something to work with.  
 
+We could define the function for the validator inside of our component, but
+it makes more sense to put it inside of its own file. We'll create a TS file
+named InvalidEmailDomain, inside this file we define the function for the
+custom validator and its name doesn't really matter, we're going to call it
+invalidEmailDomain and it accepts the control that it is bound to. Whenever
+we set up our form controls inside of form group, we specify our validators,
+and here for our senderEmail, we are going to add that invalidEmailDomain
+validator. So when Angular validates this form field, it's going to pass 
+this form control to our invalidEmailDomain function. And then we do our
+validation and we return one of two values. The first is an object of 
+type ValidationErrors, so if the value of this control is not valid, it will 
+return an object, and it will specify the type of error that happened. The
+other value is null. If our function returns null, then the value is 
+considered valid. 
+
+Let's get the value of the control in the function body and use the control
+object, it has a value property. Since email addresses are not case-sensitive,
+we should first normalize the string. So we'll use toLowerCase here. We've
+used ?. operator here so if control.value has a value, it's going to be
+xonverted into lower case. If it is null, null is going to be assigned to
+value. This is important because the first thing we are going to do is 
+check to see if we don't have a value, because if we don't have a value,
+technically, our form control is valid. IT doesn't have a host name that
+we want to prevent, so we return null if we don't have a value. This is
+true just for this case, other cases may need other return values.
+
+The next thing we want to check is check to see if the value has any one
+of the host names that we want to prevent. We'll create an array called 
+hosts, 
 
 
 
