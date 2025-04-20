@@ -910,4 +910,96 @@ valid property. Since we haven't defined any validators, this is always
 going to be true. But instead of checking each individual property, we check
 to see if the form itself is valid.
 
+JavaScript was created for the explicit purpose of processing forms. Before
+we had JS, it was very frustrating. JavaScript made it so we could process
+forms inside of the browser. Just a few years ago the validty API was 
+introduced and it made it much easier to process forms. With Angular, it is
+very easy to validate a form. We have to first import Validators from Forms.
+
+We need to get the name and email from the user, otherwise what would be the
+point of receiving a mesage from them. Whenever we create these form controls,
+we can pass in a second argument, that is the validator we want to use. We
+want all of those fields to be required so we pass the required validator to
+each one of those controls.
+
+We had that code that output the value of the valid property on our form.
+And in the previous lesson, it returned true because we didn't have any
+validators. But now whenever we submit an empty form, it returns false, because
+all of our fields are required. If we provide some information and then 
+submit the form, it is now true. We need to pass more validators, especially
+for the email, since we need a syntactically correct email address. So we
+can also pass an array of validators.
+
+There'sa validator called email which we can use beside required. If the 
+message is less than for example 10 characters, it wouldn't be logical; so
+we can use the minLength validator for it and specify the minLength.
+
+After applying these validators, if we submit the dorm without providing a
+a name, a valid email, and a valid message, the validity of the form will
+be false in the console. But we need to display something visual to tell the
+user that they are submitting an invalid form.
+
+One thing we can do is add a visual cue to the button, we can disable the
+button if the form is not valid, so we can bind to the disabled property.
+We can do this in a couple of different ways, we can use our contactForm 
+object, we have the valid property which we have been working with, we could
+say that this is disabled if not valid. This aspproach is not really logical. 
+But it does work indeed. Instead we can use the invalid property. So if this
+property is true, then the button would be disabled. 
+
+But our validation still needs some work because we need to tell the user
+what they need to provide. There are a bunch of ways we could do this but
+what we want to do is add a message to the bottom of the field, to specify
+the error that the user needs to fix. We're gonna add a div element after 
+the input element, but we only want to show this div element if the email 
+field is not valid. So we can use ngIf and we'll use our contactForm. But
+that's not good enough because we want our individual email field. We can
+use the get method on contactForm and pass in the name of the field that
+we want to get. Then we can check if it is invalid. If we do this we'll get
+and error and it says that the object is possibly null which seems like sth
+is wrong here. What we can do is use the null coalescing operator, so what
+we can use is essentially the null-checking operator. The operator for this
+is a question mark followed by a dot. What it says is that if what comes 
+before this operator is null, then it's fine, don't do anything. However
+if it's not null, then it's going to go ahead and check the invalid property.
+So if it is valid we can display that "this is invalid".
+
+One problem is with this code, as the user sees the form this message is 
+going to be displayed which is not ideal, we want the message to be hidden
+until the user does something with this field. So if they give focus to it
+and they decide to not put anything in, and move on to the next field, that 
+would be the perfect time to display this error message. 
+
+So we have added some code to our template and used ngIf to check if what the
+user entered is invalid, and if the field is dirt or if it has been touched,
+then we want to display the error message. So this approach does get verbose,
+another thing we could do is create some kind of helper method, or a helper
+property inside componet class so that we could get to this information a 
+little bit easier. We're gonna leave it as is.
+
+The error message for the email address needs to be specific and tell the
+user what they actually need to do. We're going to modify the template and
+use <small> elements here, we set the class to sext-danger so that it is
+red, and then we're going to use ngIf to check what kind of error we are
+encountering here. We're going to use an ngIf for the small element and
+use the code for invalid input from before and use hasError instead of the
+invalid property. Then we can pass in the name of the validator we want to
+check for to hasError, so in this case we use the required validator. If 
+that is the error, we can say that this field is required. 
+
+So with these validators in place, when the user touches the email field
+and moves on without typing anything in, the page is going to say this 
+field is required, and if the input is not an email address, whey will see 
+"Please enter your email address." We'll copy the code for the email field
+and paste it for the message field, and of course instead of using 
+senderEmail, this is senderMessage. For the minLength error, all we would 
+use is the name of the validator. When we pass the name of the validator to
+hasError, we should type the letters all in lower case.
+
+
+
+
+
+
+
 
