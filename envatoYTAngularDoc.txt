@@ -7,7 +7,7 @@ The title is defined in the app.component.ts file.
 
 The @Component in the component.ts file is a decorator. It gives
 us some information about the particular component. So this decorator
-tells Agnular how this component is going to be used with selector.
+tells Angular how this component is going to be used with selector.
 
 In the index.html file line 11 there is a <app-root> element which
 is the name of the selector which was defined in the AppComponent.
@@ -43,7 +43,7 @@ JavaScript has a bunch of loops but the one that we typically use
 is the for loop. And Angular gives us an easy way of using the for
 of loop and we will use what's called a directive.
 
-To use a directive, in the div element we use an asteriskng (*ng)
+To use a directive, in the div element we use an asterisk ng (*ng)
 and it gives us some suggestions, the ones with the yellow icon 
 are the ones that we work with (ngFor, ngIf, etc.).
 
@@ -104,7 +104,7 @@ that will then be bound to that property.
 
 We can also bind to html attrtibutes. Let's say we wanted a custom attribute
 called data-index; which would represent the index of the item in the 
-array. We can get the index with the ng4 directive. To tdo this we surround
+array. We can get the index with the ng4 directive. To do this we surround
 the attribute with square brackets and add attr. before the name of the 
 attribute 
 
@@ -136,7 +136,7 @@ information about the event. What we have to do to get the information
 is pass the event object. We do so by typing a $event in parentheses.
 
 At first we passed $event (information about user when event occured)
-to the toggleItem function to print it on the console, vut all we really
+to the toggleItem function to print it on the console, but all we really
 need is the item we work with, so we pass the item in the html.component.
 
 After we edit the function to display the item in the console, we see the
@@ -148,14 +148,14 @@ To manually update the value of isComplete, we write a single line of
 code that toggles its value, so whenever it's clicked, the value changes
 from true to false or vice-versa.
 
-Forms, or working with forms are also one of the most important parts of'
+Forms, or working with forms are also one of the most important parts of
 the GUI. Events allow the users to interact with our application and forms
 allow them to provide data to our application to work with.
 
-Angular allows us to work with forms in two way, the first is called 
+Angular allows us to work with forms in two ways, the first is called 
 reactive forms which is more robust and scalable. For right now, we will
 go with the second approach which is called template-driven forms. It 
-allows us to define our forms inside of the template and we just reply
+allows us to define our forms inside of the template and we just rely
 upon directives. 
 
 We have added some code with Bootstrap in the component html file to create
@@ -196,7 +196,7 @@ import, we have to import it on top of the file, and also in the import
 section of the decorator.
 
 We have binded the form field to the property so whenever the value changes, 
-it will be reflected inside of the newWushText property. Now we need to
+it will be reflected inside of the newWishText property. Now we need to
 go to our component.ts file and add a new WishItem in the addNewWish
 function and get the wishText from the property which is binded to the field.
 After assigning the wishText, we clear it to allow the user to add another
@@ -207,7 +207,7 @@ to the list but we cannot see a text. If we check the console in devtools
 we can see a clear error with a simple fix and we navigate to the html 
 file and add a name atribute to our input element.
 
-Now that we have thias functionality we can comment out the hard coded 
+Now that we have this functionality we can comment out the hard coded 
 items because we have ability to add items ourselves.
 
 We also want to add a row div element which acts a container for our list.
@@ -221,7 +221,7 @@ We want to use this functionality to set up a filter which provides 3
 choices, one that shows all of the wishes, one that shows the fulfilled
 wishes, and one that shows unfulfilled wishes.
 
-First we uncomment the hard coded wishers to work with them. Then we add
+First we uncomment the hard coded wishes to work with them. Then we add
 the markup for the UI, then we use the ngModel on the select element and
 use a property to bind it to, then we delcare the property as a string in
 the component ts file and initialize it as 0 which selects the all mode.
@@ -1032,9 +1032,3 @@ true just for this case, other cases may need other return values.
 The next thing we want to check is check to see if the value has any one
 of the host names that we want to prevent. We'll create an array called 
 hosts, 
-
-
-
-
-
-
